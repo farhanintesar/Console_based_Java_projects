@@ -19,10 +19,10 @@ public class UserRepository {
                                        //it will be called only once unlike constructor that is called everytime a object is created.
 
    static {
-    User user1 = new User("admin" , "admin" , "1234567" , "Admin" , 0.0);
-    User user2 = new User("admin2" , "admin2" , "12345678" , "Admin" , 1000.0);
-    User user3 = new User("admin3" , "admin3" , "123456789" , "Admin" , 2000.0);
-    User user4 = new User("admin4" , "admin4" , "1234567890" , "Admin" , 2000.0);
+    User user1 = new User("admin" , "admin" , "1234567" , "admin" , 0.0);
+    User user2 = new User("user2" , "user2" , "12345678" , "user" , 1000.0);
+    User user3 = new User("user3" , "user3" , "123456789" , "user" , 2000.0);
+    User user4 = new User("user4" , "user4" , "1234567890" , "user" , 2000.0);
 
     users.add(user1);
     users.add(user2);
@@ -46,6 +46,13 @@ public class UserRepository {
         return null;
     }
    }
+
+
+   
+    public boolean addNewCustomer(String username, String password , String contact){
+        User user = new User(username,password,contact, "user" , 500.0);
+        return users.add(user);
+    }
 
 
 
