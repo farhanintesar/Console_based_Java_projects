@@ -85,7 +85,25 @@ public class Main {
     }
 
     private void initCustomer(){
-        System.out.println("You are a customer");
+        boolean flag = true;
+
+        while (flag) {
+            System.out.println("1. Exit / logout");
+
+            int selectedOption = scanner.nextInt();
+
+                switch (selectedOption) {
+            case 1:
+                flag = false;
+                System.out.println("You Have successfully logged out");
+                break;
+            default:
+                System.out.println("Wrong Choice");
+                break;
+        }//end braces of switch case
+        }
+
+        
     }
 
 }
