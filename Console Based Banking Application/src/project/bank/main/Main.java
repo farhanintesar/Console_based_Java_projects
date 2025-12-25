@@ -1,5 +1,6 @@
 package project.bank.main;
 
+
 import java.util.Scanner;
 import project.bank.entity.User;
 import project.bank.service.UserService;
@@ -26,7 +27,7 @@ public class Main {
             System.out.println("You are logged in successfully");
             main.initAdmin();
         }else if(user != null && user.getRole().equals("user")){
-            main.initCustomer();
+            main.initCustomer(user);
         }else{
             System.out.println("Login Failed");
         }
@@ -39,7 +40,6 @@ public class Main {
         boolean flag = true;
 
         while(flag){
-        //System.out.println("You are an admin");
         System.out.println("1. Exit / Logout");
         System.out.println("2. Create a customer account");
 
@@ -48,11 +48,10 @@ public class Main {
         switch (selectedOption) {
             case 1:
                 flag = false;
-                System.out.println("You Have successfully logged out");
+                System.out.println("You Have successfully logged out....");
                 break;
         
             case 2:
-                //System.out.println("Write logic to add new customer");
                 main.addNewCustomer();
                 break;
 
@@ -84,11 +83,12 @@ public class Main {
         }
     }
 
-    private void initCustomer(){
+    private void initCustomer(User user){
         boolean flag = true;
 
         while (flag) {
             System.out.println("1. Exit / logout");
+            System.out.println("2. Check Bank balance");
 
             int selectedOption = scanner.nextInt();
 
@@ -97,13 +97,24 @@ public class Main {
                 flag = false;
                 System.out.println("You Have successfully logged out");
                 break;
+            case 2:
+                   Double balance= main.checkBankBalance(user.getUsername());
+                   if (balance != null){
+                    System.out.println("Your bank balance is: " + balance);
+                   } else{
+                    System.out.println("Check your username....");
+                   }
+                break;    
             default:
                 System.out.println("Wrong Choice");
                 break;
         }//end braces of switch case
         }
+    }
 
-        
+    private Double checkBankBalance(String userId){
+       return userService.checkBankBalance(userId);
+
     }
 
 }

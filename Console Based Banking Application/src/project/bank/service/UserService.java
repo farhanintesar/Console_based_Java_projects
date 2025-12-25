@@ -20,6 +20,11 @@ public class UserService {
         return userRepository.addNewCustomer(username, password,contact);
     }
 
+    public Double checkBankBalance(String userId){
+        
+        return userRepository.checkBankBalance(userId);
+    }
+
 
 
     }
