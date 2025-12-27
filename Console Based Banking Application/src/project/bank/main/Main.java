@@ -90,6 +90,7 @@ public class Main {
             System.out.println("1. Exit / logout");
             System.out.println("2. Check Bank balance");
             System.out.println("3. Fund Transfer");
+            
 
             int selectedOption = scanner.nextInt();
 
@@ -136,7 +137,7 @@ public class Main {
                }else{
                 System.out.println("Transfer Failed....");
                }
-               
+
             }else{
                 System.out.println("Insufficient Balance!! \n Current account Balance: " + usersAccountBalance);
             }

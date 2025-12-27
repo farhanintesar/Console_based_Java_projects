@@ -1,17 +1,22 @@
 package project.bank.repository;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import project.bank.entity.Transaction;
 import project.bank.entity.User;
 
 public class UserRepository {
                                          //we will store user data here (list,set,map)
                                         //we don't wand dublicate element's here so we are using sets;as sets doesn't allow duplicate valuse
 
-   private static Set<User> users = new HashSet<>();     //## We don't want incertion order so we are using hashSet()
+   
+ private static List<Transaction> transactions = new ArrayList<>();  
+ private static Set<User> users = new HashSet<>();     //## We don't want incertion order so we are using hashSet()
                                          //## We made it static because we are going to store all the user data here and only one copy of it will be
                                         //used throughout the program.
 
@@ -30,17 +35,17 @@ public class UserRepository {
     users.add(user4);
    }
 
-   
+
     public boolean transferAmount(String userId, String payeeUserId , double amount){
 
-        boolean isDebit = debit(userId, amount);
-        boolean isCredit = credit(payeeUserId, amount);
+        boolean isDebit = debit(userId, amount , payeeUserId);
+        boolean isCredit = credit(payeeUserId, amount , userId);
 
         return isDebit && isCredit;
     }
 
 
-    private boolean debit(String userId , double amount){
+    private boolean debit(String userId , double amount ,String payeeUserId){
         User user = getUser(userId);
 
         Double accountBalance = user.getAccountBalance();
@@ -50,12 +55,21 @@ public class UserRepository {
         Double finalBalance = accountBalance - amount;
         user.setAccountBalance(finalBalance);
 
+        Transaction transaction = new Transaction(LocalDate.now(),
+                            payeeUserId,
+                             amount,
+                              "Debit", 
+                              accountBalance, finalBalance,userId);
+
+                                System.out.println(transaction);
+
+        transactions.add(transaction);
         return users.add(user);
     }
 
     
-    private boolean credit(String userId , double amount){
-        User user = getUser(userId);
+    private boolean credit(String payeeUserId , double amount , String userId){
+        User user = getUser(payeeUserId);
 
         Double accountBalance = user.getAccountBalance();
 
@@ -64,6 +78,15 @@ public class UserRepository {
         Double finalBalance = accountBalance + amount;
         user.setAccountBalance(finalBalance);
 
+        Transaction transaction = new Transaction(LocalDate.now(),
+                            userId,
+                             amount,
+                              "Credit", 
+                              accountBalance, finalBalance,payeeUserId);
+
+                              System.out.println(transaction);
+                              
+        transactions.add(transaction);
         return users.add(user);
     }
 
