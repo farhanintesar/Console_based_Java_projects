@@ -89,6 +89,7 @@ public class Main {
         while (flag) {
             System.out.println("1. Exit / logout");
             System.out.println("2. Check Bank balance");
+            System.out.println("3. Fund Transfer");
 
             int selectedOption = scanner.nextInt();
 
@@ -104,7 +105,10 @@ public class Main {
                    } else{
                     System.out.println("Check your username....");
                    }
-                break;    
+                break; 
+             case 3:
+                main.fundTransfer(user);
+             break;
             default:
                 System.out.println("Wrong Choice");
                 break;
@@ -112,7 +116,44 @@ public class Main {
         }
     }
 
-    private Double checkBankBalance(String userId){
+    private void fundTransfer(User userDetails){
+        System.out.println("Enter payeee account user id");
+        String payeeAccountId = scanner.next();
+
+        User user = getUser(payeeAccountId);
+
+        if (user != null) {
+            System.out.print("Enter amount to Transfer: ");
+            Double amount = scanner.nextDouble();
+
+            Double usersAccountBalance = checkBankBalance(userDetails.getUsername());
+
+            if (usersAccountBalance >= amount){
+               boolean result = userService.transferAmount(userDetails.getUsername(), payeeAccountId, amount);
+
+               if (result) {
+                System.out.println("Amount Transfered Successfully.");
+               }else{
+                System.out.println("Transfer Failed....");
+               }
+               
+            }else{
+                System.out.println("Insufficient Balance!! \n Current account Balance: " + usersAccountBalance);
+            }
+
+        }else{
+            System.out.println("Please enter valied username....");
+        }
+
+    }
+
+    private User getUser(String userId){  //validation of payee's acount
+
+        return userService.getUser(userId);
+    }
+
+
+    private Double checkBankBalance(String userId){  //returns the current bank balance
        return userService.checkBankBalance(userId);
 
     }

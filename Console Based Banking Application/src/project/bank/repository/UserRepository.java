@@ -30,6 +30,43 @@ public class UserRepository {
     users.add(user4);
    }
 
+   
+    public boolean transferAmount(String userId, String payeeUserId , double amount){
+
+        boolean isDebit = debit(userId, amount);
+        boolean isCredit = credit(payeeUserId, amount);
+
+        return isDebit && isCredit;
+    }
+
+
+    private boolean debit(String userId , double amount){
+        User user = getUser(userId);
+
+        Double accountBalance = user.getAccountBalance();
+
+        users.remove(user);
+
+        Double finalBalance = accountBalance - amount;
+        user.setAccountBalance(finalBalance);
+
+        return users.add(user);
+    }
+
+    
+    private boolean credit(String userId , double amount){
+        User user = getUser(userId);
+
+        Double accountBalance = user.getAccountBalance();
+
+        users.remove(user);
+
+        Double finalBalance = accountBalance + amount;
+        user.setAccountBalance(finalBalance);
+
+        return users.add(user);
+    }
+
    public void printUsers(){
     System.out.println(users);  //now it will show the ref of the object; to get the actual data we need to Override toString method
    }
@@ -66,6 +103,19 @@ public class UserRepository {
         return null;
     }
     }
+
+    public User getUser(String userId){
+        
+    List<User> result = users.stream().filter(user -> user.getUsername().equals(userId)).collect(Collectors.toList());
+
+    if (! result.isEmpty()) {
+        return result.get(0);
+    }else{
+        return null;
+    }
+
+    }
+
 
 
 
