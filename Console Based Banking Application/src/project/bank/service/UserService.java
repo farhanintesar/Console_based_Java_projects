@@ -1,5 +1,7 @@
 package project.bank.service;
 
+import java.util.Map;
+
 import project.bank.entity.User;
 import project.bank.repository.UserRepository;
 
@@ -39,9 +41,16 @@ public class UserService {
         userRepository.printTransactions(userId);
     }
 
+    public void raiseChequeBookRequest(String userId){
+        userRepository.raiseChequeBookRequest(userId);
+    }
 
 
 
+    public Map<String, Boolean> getAllChequeBookRequest(){
+        return userRepository.getAllChequeBookRequest();
+    }
+    
     }
 
 

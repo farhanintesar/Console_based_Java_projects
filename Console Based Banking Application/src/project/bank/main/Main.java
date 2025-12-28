@@ -1,6 +1,8 @@
 package project.bank.main;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import project.bank.entity.User;
 import project.bank.service.UserService;
@@ -38,11 +40,14 @@ public class Main {
     private void initAdmin(){
 
         boolean flag = true;
+         String userId ="";
 
         while(flag){
         System.out.println("1. Exit / Logout");
         System.out.println("2. Create a customer account");
         System.out.println("3. See all transaction");
+        System.out.println("4. Check Bank Balance");
+     
 
         int selectedOption = scanner.nextInt();
 
@@ -51,16 +56,21 @@ public class Main {
                 flag = false;
                 System.out.println("You Have successfully logged out....");
                 break;
-        
             case 2:
                 main.addNewCustomer();
                 break;
             case 3:
                 System.out.print("Enter customer/userId: ");
-                String userId = scanner.next();
+                userId = scanner.next();
                 printTransactions(userId);
-
                 break;
+            case 4:
+                System.out.print("Enter customer/userId: ");
+                userId = scanner.next();
+                Double accountBalance= checkBankBalance(userId);
+                System.out.println( userId +"'s account balance is: " + accountBalance);
+                break;
+           
             default:
                 System.out.println("Wrong Choice");
                 break;
@@ -68,6 +78,8 @@ public class Main {
 
         } //end braces of while loop
     }
+
+   
 
 
     private void addNewCustomer(){
@@ -97,7 +109,7 @@ public class Main {
             System.out.println("2. Check Bank balance");
             System.out.println("3. Fund Transfer");
             System.out.println("4. See all Transaction");
-            
+               System.out.println("5. Raise cheque book request.");
 
             int selectedOption = scanner.nextInt();
 
@@ -120,11 +132,32 @@ public class Main {
             case 4:
                 main.printTransactions(user.getUsername());
                 break;
+            case 5:
+               String userId = user.getUsername();
+               Map<String , Boolean> map = getAllChequeBookRequest();
+
+                if (map.containsKey(userId) && map.get(userId)) {
+                    System.out.println("You have already Raised a request and It is already approved");
+                }else if (map.containsKey(userId) && !map.get(userId)){
+                 System.out.println("You have already Raised a request and It is pending for approval");
+                }else{
+                   raiseChequeBookRequest(userId);
+                   System.out.println("Request Raised Successfully");
+                }
+                break;
             default:
                 System.out.println("Wrong Choice");
                 break;
         }//end braces of switch case
         }
+    }
+
+     private void raiseChequeBookRequest(String userId){
+        userService.raiseChequeBookRequest(userId);
+    }
+
+    private Map<String , Boolean> getAllChequeBookRequest(){
+        return userService.getAllChequeBookRequest();
     }
 
 

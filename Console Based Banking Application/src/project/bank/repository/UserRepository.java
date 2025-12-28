@@ -2,8 +2,10 @@ package project.bank.repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,9 +16,9 @@ public class UserRepository {
                                          //we will store user data here (list,set,map)
                                         //we don't wand dublicate element's here so we are using sets;as sets doesn't allow duplicate valuse
 
-   
- private static List<Transaction> transactions = new ArrayList<>();  
- private static Set<User> users = new HashSet<>();     //## We don't want incertion order so we are using hashSet()
+   Map<String , Boolean> chequeBookRequest = new HashMap<>();  //if insertion matter linkedHashMap() will be used otherwise HashMap()
+   private static List<Transaction> transactions = new ArrayList<>();  
+   private static Set<User> users = new HashSet<>();     //## We don't want incertion order so we are using hashSet()
                                          //## We made it static because we are going to store all the user data here and only one copy of it will be
                                         //used throughout the program.
 
@@ -34,6 +36,19 @@ public class UserRepository {
     users.add(user3);
     users.add(user4);
    }
+
+   
+
+   
+
+      public void raiseChequeBookRequest(String userId){
+        chequeBookRequest.put(userId, false);  //once admin approve it we will make it true
+    }
+
+     public Map<String , Boolean> getAllChequeBookRequest(){
+        return chequeBookRequest;
+    }
+
 
 
     public boolean transferAmount(String userId, String payeeUserId , double amount){
