@@ -90,6 +90,31 @@ public class UserRepository {
         return users.add(user);
     }
 
+
+    public void printTransactions(String userId){
+       List<Transaction> filteredTransactions = transactions.stream().filter(transaction -> transaction.getTransactionPerformedBy().
+                                                                                equals(userId)).collect(Collectors.toList());
+        
+        System.out.println("Date\t User Id \t Amount \t Type \t Initial Banalnce \t Final Balance");
+        System.out.println("--------------------------------------------------------------------------");
+            for (Transaction t : filteredTransactions) {
+            System.out.println(t.getTransactionDate()+
+             "\t" + t.getTransactionUserId() + "\t" +
+             t.getTransactionAmount() + "\t\t" +
+             t.getTransactionType() + "\t\t" +
+             t.getInitialBalance() + "\t\t\t" +
+             t.getFinalBalance()
+        
+        );
+        }      
+        System.out.println("--------------------------------------------------------------------------");                                                                 
+    }
+
+
+
+
+
+
    public void printUsers(){
     System.out.println(users);  //now it will show the ref of the object; to get the actual data we need to Override toString method
    }

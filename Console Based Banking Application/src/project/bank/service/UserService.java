@@ -35,6 +35,10 @@ public class UserService {
        return userRepository.transferAmount(userId, payeeUserId, amount);
     }
 
+    public void printTransactions(String userId){
+        userRepository.printTransactions(userId);
+    }
+
 
 
 

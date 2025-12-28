@@ -42,6 +42,7 @@ public class Main {
         while(flag){
         System.out.println("1. Exit / Logout");
         System.out.println("2. Create a customer account");
+        System.out.println("3. See all transaction");
 
         int selectedOption = scanner.nextInt();
 
@@ -54,7 +55,12 @@ public class Main {
             case 2:
                 main.addNewCustomer();
                 break;
+            case 3:
+                System.out.print("Enter customer/userId: ");
+                String userId = scanner.next();
+                printTransactions(userId);
 
+                break;
             default:
                 System.out.println("Wrong Choice");
                 break;
@@ -90,6 +96,7 @@ public class Main {
             System.out.println("1. Exit / logout");
             System.out.println("2. Check Bank balance");
             System.out.println("3. Fund Transfer");
+            System.out.println("4. See all Transaction");
             
 
             int selectedOption = scanner.nextInt();
@@ -110,11 +117,19 @@ public class Main {
              case 3:
                 main.fundTransfer(user);
              break;
+            case 4:
+                main.printTransactions(user.getUsername());
+                break;
             default:
                 System.out.println("Wrong Choice");
                 break;
         }//end braces of switch case
         }
+    }
+
+
+    private void printTransactions(String userId){
+        userService.printTransactions(userId);
     }
 
     private void fundTransfer(User userDetails){
